@@ -15,6 +15,7 @@
  */
 package com.github.pedrovgs;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
@@ -69,6 +70,7 @@ public class DraggableView extends RelativeLayout {
   private boolean enableClickToMaximize;
   private boolean enableClickToMinimize;
   private boolean touchEnabled;
+  private boolean fullScreen;
 
   private DraggableListener listener;
   private int topViewHeight;
@@ -359,6 +361,10 @@ public class DraggableView extends RelativeLayout {
    * @return true if the touch event is realized over the drag or second view.
    */
   @Override public boolean onTouchEvent(MotionEvent ev) {
+    if(isFullScreen()) {
+      dragView.dispatchTouchEvent(ev);
+      return true;
+    }
     int actionMasked = MotionEventCompat.getActionMasked(ev);
     if ((actionMasked & MotionEventCompat.ACTION_MASK) == MotionEvent.ACTION_DOWN) {
       activePointerId = MotionEventCompat.getPointerId(ev, actionMasked);
@@ -784,4 +790,20 @@ public class DraggableView extends RelativeLayout {
   public int getDraggedViewHeightPlusMarginTop() {
     return transformer.getMinHeightPlusMargin();
   }
+
+  public void setFullScreen(boolean fullScreen, Activity activity){
+    this.fullScreen = fullScreen;
+    transformer.setFullScreen(fullScreen, activity);
+    if(fullScreen){
+      secondView.setVisibility(GONE);
+    }
+    else{
+      secondView.setVisibility(VISIBLE);
+    }
+  }
+
+  public boolean isFullScreen() {
+    return fullScreen;
+  }
+
 }

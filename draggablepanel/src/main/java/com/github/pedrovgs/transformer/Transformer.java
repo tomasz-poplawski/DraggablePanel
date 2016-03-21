@@ -15,7 +15,11 @@
  */
 package com.github.pedrovgs.transformer;
 
+import android.app.Activity;
+import android.graphics.Point;
+import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import com.nineoldandroids.view.ViewHelper;
 
@@ -157,4 +161,28 @@ public abstract class Transformer {
    * @return min possible width, after apply the transformation.
    */
   public abstract int getMinWidthPlusMarginRight();
+
+  public void setFullScreen(boolean fullScreen, Activity activity){
+
+    if(fullScreen) {
+      Display display = activity.getWindowManager().getDefaultDisplay();
+      Point size = new Point();
+      display.getRealSize(size);
+      int width = size.x;
+      int height = size.y;
+
+      originalHeight = height;
+      view.setLayoutParams(new RelativeLayout.LayoutParams(width, originalHeight));
+    }
+    else{
+      Display display = activity.getWindowManager().getDefaultDisplay();
+      Point size = new Point();
+      display.getSize(size);
+
+      originalHeight = size.x * 9 / 16;
+      view.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, originalHeight));
+
+    }
+  }
+
 }

@@ -15,6 +15,7 @@
  */
 package com.github.pedrovgs;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v4.app.Fragment;
@@ -369,4 +370,13 @@ public class DraggablePanel extends FrameLayout {
           "You have to set top and bottom fragment before initialize DraggablePanel");
     }
   }
+
+  public void setFullScreen(boolean fullScreen, Activity activity){
+    draggableView.setFullScreen(fullScreen, activity);
+  }
+
+  public boolean isFullScreen(){
+    return draggableView.isFullScreen();
+  }
+
 }
